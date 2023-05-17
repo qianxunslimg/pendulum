@@ -1,3 +1,5 @@
+2023.5.17
+
 # Inverted pendulum demo
 
 ## Disclaimer
@@ -39,7 +41,7 @@ A more detailed description of demo the project design be found here: [Design Ar
 ## Install instructions
 
  Several ways to install the pendulum demo project are provided depending on the user needs. 
- 
+
 - [ADE based installation](docs/installation.md#ade-based-installation): This provides a 
 pre-configured Docker image with everything ready to be used. This is the recommended option to
  quickly test the demo. It is also useful to have development environment to add new features.
