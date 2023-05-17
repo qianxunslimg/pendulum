@@ -53,28 +53,40 @@ target_link_libraries(${PENDULUM_CONTROLLER_EXE} ${PENDULUM_CONTROLLER_LIB})
 ament_export_targets(export_${PENDULUM_CONTROLLER_LIB} HAS_LIBRARY_TARGET)
 ament_export_dependencies(${dependencies})
 
+# 判断是否开启了测试选项，如果是，则执行以下代码
 if(BUILD_TESTING)
+  # 寻找apex_test_tools软件包，并将其包含到当前项目中
   find_package(apex_test_tools REQUIRED)
+  # 寻找ament_cmake_gtest软件包，并将其包含到当前项目中
   find_package(ament_cmake_gtest REQUIRED)
+  # 寻找ament_lint_auto软件包，并将其包含到当前项目中
   find_package(ament_lint_auto REQUIRED)
+  # 调用ament_lint_auto_find_test_dependencies函数，自动寻找测试所需的依赖包
   ament_lint_auto_find_test_dependencies()
 
+  # 调用apex_test_tools_add_gtest函数，添加一个名为test_pendulum_controller的gtest测试目标，指定其源码文件为test/test_pendulum_controller.cpp
   apex_test_tools_add_gtest(test_pendulum_controller test/test_pendulum_controller.cpp)
+  # 判断是否创建了test_pendulum_controller目标，如果是，则将PENDULUM_CONTROLLER_LIB库链接到该目标上
   if(TARGET test_pendulum_controller)
     target_link_libraries(test_pendulum_controller ${PENDULUM_CONTROLLER_LIB})
   endif()
+  # 调用apex_test_tools_add_gtest函数，添加一个名为test_pendulum_controller_node的gtest测试目标，指定其源码文件为test/test_pendulum_controller_node.cpp
   apex_test_tools_add_gtest(test_pendulum_controller_node test/test_pendulum_controller_node.cpp)
+  # 判断是否创建了test_pendulum_controller_node目标，如果是，则将PENDULUM_CONTROLLER_LIB库链接到该目标上
   if(TARGET test_pendulum_controller_node)
     target_link_libraries(test_pendulum_controller_node ${PENDULUM_CONTROLLER_LIB})
   endif()
 
+  # 寻找launch_testing_ament_cmake软件包，并将其包含到当前项目中
   find_package(launch_testing_ament_cmake)
+  # 调用add_launch_test函数，添加一个名为pendulum_controller_lifecycle.test的launch测试目标，指定其launch文件为test/pendulum_controller_lifecycle.test.py，并设置环境变量和超时时间
   add_launch_test(
       test/pendulum_controller_lifecycle.test.py
       TARGET pendulum_controller_lifecycle.test
       ENV
       TIMEOUT 30
   )
+  # 调用add_launch_test函数，添加一个名为pendulum_controller_autostart.test的launch测试目标，指定其launch文件为test/pendulum_controller_autostart.test.py，并设置环境变量和超时时间
   add_launch_test(
       test/pendulum_controller_autostart.test.py
       TARGET pendulum_controller_autostart.test
